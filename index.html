@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3> Q.1 Create 2 objects - parent and child. Attach methods to parent and use those methods in child object 
+        using parents prototype</h3>
+        <pre>Ans:
+            function Outer(name) {
+              this.name = name;
+            }
+            
+            Outer.prototype.greet = function() {
+              console.log(`Hello, I am ${this.name}`);
+            }
+            
+            function Inner(name, age) {
+       
+              Outer.call(this, name);
+              this.age = age;
+            }
+    
+            Inner.prototype = Object.create(Outer.prototype);
+            
+            Inner.prototype.introduce = function() {
+              console.log(`Hi, I am ${this.name} and my age is ${this.age} years old`);
+            }
+            
+            const Outer = new Outer('ketan');
+            const Inner = new Inner('Alice', 5);
+            
+            Outer.greet(); 
+            Inner.greet(); 
+           Inner.introduce();
+        Here inner inherited property of outer and used in itself</pre>
+
+    <h3>Q.2 Write code to explain prototype chaining</h3>
+    <pre>in prototype chaining we get that the parent prototype is an object and at last
+        prototype chaining ends at when proto will be null which we can see in console.
+        Ex:
+        function Parent(name) {
+            this.name = name;
+          }
+          
+          Parent.prototype.greet = function() {
+            console.log(`Hello, I am ${this.name}`);
+          }
+          
+          function Child(name, age) {
+            Parent.call(this, name); // Call the Parent constructor to set the name property
+            this.age = age;
+          }
+          
+          Child.prototype = Object.create(Parent.prototype);
+          
+          Child.prototype.introduce = function() {
+            console.log(`Hi, I am ${this.name} and I am ${this.age} years old`);
+          }
+    
+          const child = new Child('ketan', 22);
+          
+          child.greet();
+          child.introduce();
+        in above example when we see that its making a chain of prototype in console and at the end it will be null
+        then chaining ends.
+    </pre>
+
+    <h3>Q.3 Add a method to calculate sum of all elements in Array in array's protype, use that method to calculate sum for multiple arrays</h3>
+    <pre>Array.prototype.sum = function () {
+        return this.reduce((acc, curr) => acc + curr, 0);
+      };
+      
+      const array1 = [1, 2, 3, 4, 5];
+      const array2 = [10, 20, 30];
+      const array3 = [3, 8, 12, 7];
+      
+      const Total1 = array1.sum(); // 15
+      const Total2 = array2.sum(); // 60
+      const Total3 = array3.sum(); // 30
+      
+      console.log(Total1);
+      console.log(Total2);
+      console.log(Total3);</pre>
+
+      <h3>Q.4 Write a JavaScript function to retrieve all the names of object's own and inherited properties.</h3>
+      <pre>function PropertyNames(obj) {
+        let propertyNames1 = [];
+
+        function getPropertiesRecursive(obj) {
+          const proto = Object.getPrototypeOf(obj);
+          propertyNames1.push(...Object.getOwnPropertyNames(obj));
+      
+          if (proto !== null) {
+            getPropertiesRecursive(proto);
+          }
+        }
+      
+        getPropertiesRecursive(obj);
+        return propertyNames1;
+      }
+      
+      const obj = {
+        a: 1,
+        b: 2
+      };
+      
+      const parent = {
+        c: 3
+      };
+      obj.__proto__ = parent;
+      const allPropertyNames = PropertyNames(obj);
+      console.log(allPropertyNames);
+
+      output is: ['a', 'b', 'c', 'constructor', '__defineGetter__', '__defineSetter__', 'hasOwnProperty', 
+      '__lookupGetter__', '__lookupSetter__', 'isPrototypeOf','propertyIsEnumerable', 'toString', 'valueOf',
+       '__proto__', 'toLocaleString'] here we got ourdesired result in console
+     </pre>
+
+           <script src="./index.js"></script>
+</body>
+</html>
